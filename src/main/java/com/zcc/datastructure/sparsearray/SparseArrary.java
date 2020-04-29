@@ -49,7 +49,7 @@ public class SparseArrary {
             System.out.printf("%d\t%d\t%d\t\n", sparseArray[i][0], sparseArray[i][1], sparseArray[i][2]);
         }
         //将稀疏数组存入文件
-        File file = new File("C:\\Users\\赵聪聪\\Desktop\\data.data");
+        File file = new File(System.getProperty("user.dir") + "/sparseArrary.out");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -74,7 +74,7 @@ public class SparseArrary {
         int[][] sparseArrayToFile = new int[sum + 1][3];
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("C:\\Users\\赵聪聪\\Desktop\\data.data"));
+            br = new BufferedReader(new FileReader(new File(System.getProperty("user.dir") + "/sparseArrary.out")));
             String line;
             int row = 0;
             while ((line = br.readLine()) != null) {
