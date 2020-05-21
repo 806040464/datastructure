@@ -46,21 +46,39 @@ public class SingletonLinkedListDemo {
         singletonLinkedList.list();
 
         SingletonLinkedList singletonLinkedList1 = new SingletonLinkedList();
-        singletonLinkedList1.add(new HeroNode(1, "宋江", "及时雨"));
-        singletonLinkedList1.add(new HeroNode(2, "卢俊义", "玉麒麟"));
-        singletonLinkedList1.add(new HeroNode(6, "吴用", "智多星"));
-        singletonLinkedList1.add(new HeroNode(8, "林冲", "豹子头"));
+        singletonLinkedList1.add(new HeroNode(1, "1", "及时雨"));
+        singletonLinkedList1.add(new HeroNode(2, "2", "玉麒麟"));
+        singletonLinkedList1.add(new HeroNode(6, "6", "智多星"));
+        singletonLinkedList1.add(new HeroNode(8, "8", "豹子头"));
         SingletonLinkedList singletonLinkedList2 = new SingletonLinkedList();
-        singletonLinkedList2.add(new HeroNode(3, "宋江", "及时雨"));
-        singletonLinkedList2.add(new HeroNode(4, "卢俊义", "玉麒麟"));
-        singletonLinkedList2.add(new HeroNode(5, "吴用", "智多星"));
-        singletonLinkedList2.add(new HeroNode(7, "林冲", "豹子头"));
-        System.out.println("合并单链表：");
+        singletonLinkedList2.add(new HeroNode(3, "3", "及时雨"));
+        singletonLinkedList2.add(new HeroNode(4, "4", "玉麒麟"));
+        singletonLinkedList2.add(new HeroNode(5, "5", "智多星"));
+        singletonLinkedList2.add(new HeroNode(7, "7", "豹子头"));
+        System.out.println("递归合并单链表：");
         HeroNode heroNode = singletonLinkedList.mergeNodeRecurse(singletonLinkedList1.getHead(), singletonLinkedList2.getHead());
         HeroNode cur = heroNode;
         while (null != cur) {
             System.out.println(cur);
             cur = cur.next;
+        }
+
+        SingletonLinkedList singletonLinkedList3 = new SingletonLinkedList();
+        singletonLinkedList3.add(new HeroNode(1, "1", "及时雨"));
+        singletonLinkedList3.add(new HeroNode(2, "2", "玉麒麟"));
+        singletonLinkedList3.add(new HeroNode(6, "6", "智多星"));
+        singletonLinkedList3.add(new HeroNode(8, "8", "豹子头"));
+        SingletonLinkedList singletonLinkedList4 = new SingletonLinkedList();
+        singletonLinkedList4.add(new HeroNode(3, "3", "及时雨"));
+        singletonLinkedList4.add(new HeroNode(4, "4", "玉麒麟"));
+        singletonLinkedList4.add(new HeroNode(5, "5", "智多星"));
+        singletonLinkedList4.add(new HeroNode(7, "7", "豹子头"));
+        System.out.println("while合并单链表：");
+        HeroNode mergeNodeWhile = singletonLinkedList.mergeNodeWhile(singletonLinkedList3.getHead(), singletonLinkedList4.getHead());
+        HeroNode cur1 = mergeNodeWhile.next;
+        while (null != cur1) {
+            System.out.println(cur1);
+            cur1 = cur1.next;
         }
     }
 }
@@ -90,6 +108,38 @@ class SingletonLinkedList {
             result.next = mergeNodeRecurse(node1, node2.next);
         }
         return result;
+    }
+
+    public HeroNode mergeNodeWhile(HeroNode node1, HeroNode node2) {
+        if (null == node1.next) {
+            return node2;
+        }
+        if (null == node2.next) {
+            return node1;
+        }
+        //cur3与newhead都指向同一内存地址，后续cur3向后移动，修改newhead指向的新建的heronode，同时newhead的值也更新
+        //cur1、cur2、cur3都是用来循环遍历对应链表的辅助指针（变量）
+        HeroNode cur3 = new HeroNode(0, "", "");
+        HeroNode newHead = cur3;
+        HeroNode cur1 = node1.next;
+        HeroNode cur2 = node2.next;
+        while (null != cur1 && null != cur2) {
+            if (cur1.no <= cur2.no) {
+                cur3.next = cur1;
+                cur1 = cur1.next;
+            } else {
+                cur3.next = cur2;
+                cur2 = cur2.next;
+            }
+            cur3 = cur3.next;
+        }
+        if (null == cur1) {
+            cur3.next = cur2;
+        }
+        if (null == cur2) {
+            cur3.next = cur1;
+        }
+        return newHead;
     }
 
     /*
